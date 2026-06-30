@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<title>Tic Tac Toe | By Lupy Ariesta</title>
+<meta name="description" content="Think Fast, Win Faster — Tic Tac Toe space-themed premium web game." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-theme="dark">
+
+  <!-- ============ 3D SPACE BACKGROUND ============ -->
+  <canvas id="space-canvas"></canvas>
+  <div class="vignette"></div>
+
+  <!-- ============ APP ROOT ============ -->
+  <div id="app">
+
+    <!-- ---------- TOP BAR (persists across screens except main menu) ---------- -->
+    <header class="topbar hidden" id="topbar">
+      <button class="icon-btn" id="btn-back" aria-label="Kembali">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" /></svg>
+      </button>
+      <div class="topbar-title" id="topbar-title">Tic Tac Toe</div>
+      <div class="topbar-player" id="topbar-player"></div>
+    </header>
+
+    <!-- ============ SCREEN: MAIN MENU ============ -->
+    <section class="screen screen-menu active" id="screen-menu">
+      <div class="menu-wrap">
+        <div class="brand">
+          <div class="logo-orb">
+            <span class="logo-x">X</span><span class="logo-o">O</span>
+          </div>
+          <h1 class="game-title">TIC TAC TOE</h1>
+          <p class="game-byline">By <span>Lupy Ariesta</span></p>
+          <p class="tagline">Think Fast, Win Faster</p>
+        </div>
+
+        <div class="player-card glass">
+          <label for="player-name" class="field-label">Nama Pemain</label>
+          <div class="name-input-row">
+            <div class="avatar-preview" id="avatar-preview">?</div>
+            <input type="text" id="player-name" maxlength="14" placeholder="Masukkan nama..." autocomplete="off" />
+          </div>
+        </div>
+
+        <nav class="menu-actions">
+          <button class="btn btn-primary btn-lg" id="btn-start">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            Start Game
+          </button>
+          <div class="menu-actions-row">
+            <button class="btn btn-ghost" id="btn-settings">
+              <svg viewBox="0 0 24 24"><path d="M19.14 12.94a7.07 7.07 0 0 0 .06-.94 7.07 7.07 0 0 0-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.3 7.3 0 0 0-1.62-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 0 0-.6.22L1.71 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.62-.06.94s.02.63.06.94L1.83 14.5a.5.5 0 0 0-.12.64l1.92 3.32c.14.24.39.32.6.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54c.05.27.27.42.5.42h3.84c.25 0 .45-.15.5-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.23.1.48.02.6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.56zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/></svg>
+              Settings
+            </button>
+            <button class="btn btn-ghost" id="btn-statistics">
+              <svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h3v14h-3zm5.7 8H19v6h-2.7z"/></svg>
+              Statistics
+            </button>
+          </div>
+        </nav>
+
+        <div class="theme-toggle-wrap">
+          <button class="theme-toggle" id="btn-theme" aria-label="Ganti Tema">
+            <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN: MODE SELECT ============ -->
+    <section class="screen screen-modes" id="screen-modes">
+      <div class="panel-wrap">
+        <h2 class="section-title">Pilih Mode</h2>
+        <div class="mode-grid">
+          <button class="mode-card glass" data-mode="pvp">
+            <div class="mode-icon">⚔️</div>
+            <div class="mode-name">Player vs Player</div>
+            <div class="mode-desc">Dua pemain, satu papan.</div>
+          </button>
+          <button class="mode-card glass" data-mode="easy">
+            <div class="mode-icon">🤖</div>
+            <div class="mode-name">Bot — Easy</div>
+            <div class="mode-desc">Bot sering melakukan kesalahan.</div>
+          </button>
+          <button class="mode-card glass" data-mode="medium">
+            <div class="mode-icon">🛰️</div>
+            <div class="mode-name">Bot — Medium</div>
+            <div class="mode-desc">Bot bermain cukup baik.</div>
+          </button>
+          <button class="mode-card glass" data-mode="hard">
+            <div class="mode-icon">🪐</div>
+            <div class="mode-name">Bot — Hard</div>
+            <div class="mode-desc">Bot bermain strategis.</div>
+          </button>
+          <button class="mode-card glass" data-mode="impossible">
+            <div class="mode-icon">👾</div>
+            <div class="mode-name">Bot — Impossible</div>
+            <div class="mode-desc">Minimax. Hampir mustahil dikalahkan.</div>
+          </button>
+        </div>
+
+        <h2 class="section-title">Ukuran Papan</h2>
+        <div class="size-grid">
+          <button class="size-card glass active" data-size="3">3×3</button>
+          <button class="size-card glass" data-size="5">5×5</button>
+          <button class="size-card glass" data-size="7">7×7</button>
+        </div>
+
+        <button class="btn btn-primary btn-lg" id="btn-play">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          Mainkan
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN: GAME BOARD ============ -->
+    <section class="screen screen-game" id="screen-game">
+      <div class="game-wrap">
+
+        <div class="hud">
+          <div class="hud-player hud-player-1" id="hud-p1">
+            <div class="hud-avatar" id="hud-avatar-1"></div>
+            <div class="hud-info">
+              <div class="hud-name" id="hud-name-1">Player 1</div>
+              <div class="hud-symbol">X</div>
+            </div>
+          </div>
+
+          <div class="hud-center">
+            <div class="timer-ring" id="timer-ring">
+              <svg viewBox="0 0 80 80">
+                <circle class="timer-bg" cx="40" cy="40" r="34"></circle>
+                <circle class="timer-fg" id="timer-fg" cx="40" cy="40" r="34"></circle>
+              </svg>
+              <span class="timer-text" id="timer-text">15</span>
+            </div>
+            <div class="streak-badge hidden" id="streak-badge">🔥 WIN STREAK</div>
+            <div class="lucky-badge hidden" id="lucky-badge">⭐ Lucky Galaxy ×2</div>
+          </div>
+
+          <div class="hud-player hud-player-2" id="hud-p2">
+            <div class="hud-info hud-info-right">
+              <div class="hud-name" id="hud-name-2">Player 2</div>
+              <div class="hud-symbol">O</div>
+            </div>
+            <div class="hud-avatar" id="hud-avatar-2"></div>
+          </div>
+        </div>
+
+        <div class="board-stage">
+          <div class="board" id="board"></div>
+        </div>
+
+        <div class="game-actions">
+          <button class="btn btn-ghost btn-sm" id="btn-restart">Ulangi</button>
+          <button class="btn btn-ghost btn-sm" id="btn-quit">Keluar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN: SETTINGS ============ -->
+    <section class="screen screen-settings" id="screen-settings">
+      <div class="panel-wrap">
+        <h2 class="section-title">Pengaturan</h2>
+
+        <div class="settings-card glass">
+          <div class="settings-row">
+            <span>Tampilan</span>
+            <div class="segmented" id="seg-theme">
+              <button class="seg-btn active" data-theme="dark">Dark</button>
+              <button class="seg-btn" data-theme="light">Light</button>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <span>Suara</span>
+            <label class="switch">
+              <input type="checkbox" id="toggle-sound" />
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+            </label>
+          </div>
+
+          <div class="settings-row settings-row-col">
+            <span>Volume</span>
+            <input type="range" id="range-volume" min="0" max="100" value="60" class="slider" />
+          </div>
+
+          <div class="settings-row settings-row-col">
+            <span>Durasi Giliran</span>
+            <div class="segmented segmented-wrap" id="seg-timer">
+              <button class="seg-btn" data-timer="10">10s</button>
+              <button class="seg-btn active" data-timer="15">15s</button>
+              <button class="seg-btn" data-timer="20">20s</button>
+              <button class="seg-btn" data-timer="30">30s</button>
+              <button class="seg-btn" data-timer="0">∞</button>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <span>Reset Statistik</span>
+            <button class="btn btn-danger btn-sm" id="btn-reset-stats">Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN: STATISTICS ============ -->
+    <section class="screen screen-stats" id="screen-stats">
+      <div class="panel-wrap">
+        <h2 class="section-title">Statistik</h2>
+        <div class="stats-grid">
+          <div class="stat-card glass">
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-label">Total Match</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-value stat-win" id="stat-win">0</div>
+            <div class="stat-label">Total Win</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-value stat-lose" id="stat-lose">0</div>
+            <div class="stat-label">Total Lose</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-value" id="stat-draw">0</div>
+            <div class="stat-label">Total Draw</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-value" id="stat-winrate">0%</div>
+            <div class="stat-label">Win Rate</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-value" id="stat-time">0m</div>
+            <div class="stat-label">Total Playing Time</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-value" id="stat-size">—</div>
+            <div class="stat-label">Favorite Board Size</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-value" id="stat-mode">—</div>
+            <div class="stat-label">Favorite Mode</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============ MODAL: WIN / DRAW POPUP ============ -->
+  <div class="modal-overlay" id="modal-result">
+    <div class="modal-card glass">
+      <div class="modal-confetti" id="modal-confetti"></div>
+      <div class="result-icon" id="result-icon">🏆</div>
+      <h3 class="result-title" id="result-title">Pemenang!</h3>
+      <p class="result-name" id="result-name">Lupy</p>
+      <div class="result-stats">
+        <div class="result-stat">
+          <span class="result-stat-value" id="result-moves">0</span>
+          <span class="result-stat-label">Langkah</span>
+        </div>
+        <div class="result-stat">
+          <span class="result-stat-value" id="result-duration">0:00</span>
+          <span class="result-stat-label">Durasi</span>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="btn-play-again">Main Lagi</button>
+        <button class="btn btn-ghost" id="btn-replay">Replay Match</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ REPLAY OVERLAY ============ -->
+  <div class="modal-overlay" id="modal-replay">
+    <div class="modal-card glass replay-card">
+      <h3 class="result-title">Replay Match</h3>
+      <div class="replay-move-label" id="replay-move-label">Move 1</div>
+      <div class="board replay-board" id="replay-board"></div>
+      <button class="btn btn-ghost" id="btn-close-replay">Tutup</button>
+    </div>
+  </div>
+
+  <!-- ============ TOAST CONTAINER ============ -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="js/statistics.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
