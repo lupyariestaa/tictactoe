@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./banner.png" width="100%" alt="Tic Tac Toe Banner"/>
+<img src="Docs/banner.png" width="100%" alt="Tic Tac Toe Banner"/>
 
 # ❌⭕ Tic Tac Toe
 
@@ -52,10 +52,10 @@ Play against your friends or challenge multiple AI difficulty levels ranging fro
 
 <div align="center">
 
-<img src="./screenshots/home.png" width="24%">
-<img src="./screenshots/mode.png" width="24%">
-<img src="./screenshots/gameplay.png" width="24%">
-<img src="./screenshots/statistics.png" width="24%">
+<img src="Docs/SS6.png" width="24%">
+<img src="Docs/SS5.png" width="24%">
+<img src="Docs/SS4.png" width="24%">
+<img src="Docs/SS1.png" width="24%">
 
 </div>
 
